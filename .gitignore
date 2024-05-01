@@ -1,0 +1,23 @@
+# Maven specific files
+target
+!.mvn/wrapper/maven-wrapper.jar
+
+# Compiled class file
+*.class
+
+# Log files
+*.log
+
+# IDE-specific files (Eclipse, IntelliJ, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws
+*.classpath
+*.project
+
+.vscode
+
+# Maven generated files
+mvnw
+mvnw.cmd
