@@ -10,13 +10,14 @@ import javax.swing.JOptionPane;
 import java.util.List;
 
 /**
- * Hello world!
+ * Choquehuallpa Hurtado Oscar Alcides
+ * 11 / 05 / 2024
  */
 public class App  {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.load();
 		try {
+			Dotenv dotenv = Dotenv.load();
 			var pathToJson = CoreHelpers.getAssetFile("currencies.json");
 			List<Currency> currencies = CoreHelpers.getListFromJson(pathToJson, Currency.class);
 			String API_KEY = dotenv.get("API_KEY");

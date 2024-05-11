@@ -72,6 +72,10 @@ public class ConverterCurrencyFrame extends JFrame {
 	}
 
 	public void showWindow() throws NotFoundResourceFile, IOException, FontFormatException {
+		// important!, set default values for codes
+		cmbBaseCurrency.setSelectedIndex(0);
+		cmbTargetCurrency.setSelectedIndex(1);
+		// load fonts
 		Font poppins = CoreHelpers.loadFont("Poppins.ttf",18);
 		cmbBaseCurrency.setFont(poppins);
 		cmbTargetCurrency.setFont(poppins);
@@ -117,7 +121,7 @@ public class ConverterCurrencyFrame extends JFrame {
 				if (baseCurrency.isEmpty()) throw new Exception("You must select a base currency");
 				if (targetCurrency.isEmpty()) throw new Exception("You must select a target currency");
 				this.currencyServiceApi.convert(amount, baseCurrency.get().code(), targetCurrency.get().code())
-					.thenAccept(conversionResult -> txtOutput.setText(CoreHelpers.currencyFormat(conversionResult)))
+					.thenAccept(conversionResult -> txtOutput.setText(conversionResult.toString()))
 					.exceptionally(throwable -> {
 						txtOutput.setText("0.00");
 						JOptionPane.showMessageDialog(null, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
