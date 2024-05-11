@@ -1,0 +1,47 @@
+[
+  {
+    "code": "USD",
+    "name": "Dolar Americano",
+    "country": "Estados Unidos"
+  },
+  {
+    "code": "PEN",
+    "name": "Sol Peruano",
+    "country": "Perú"
+  },
+  {
+    "code": "ARS",
+    "name": "Peso Argentino",
+    "country": "Argentina"
+  },
+  {
+    "code": "MXN",
+    "name": "Peso Mexicano",
+    "country": "Mexico"
+  },
+  {
+    "code": "BRL",
+    "name": "Real Brazileño",
+    "country": "Brazil"
+  },
+  {
+    "code": "EUR",
+    "name": "Euro",
+    "country": "Unión Europea"
+  },
+  {
+    "code": "CNY",
+    "name": "Renminbi Chino",
+    "country": "China"
+  },
+  {
+    "code": "COP",
+    "name": "Peso Colombiano",
+    "country": "Colombia"
+  },
+  {
+    "code": "INR",
+    "name": "Rupia India",
+    "country": "India"
+  }
+]
