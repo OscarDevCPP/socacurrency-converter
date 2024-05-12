@@ -82,8 +82,10 @@ public class ConverterCurrencyFrame extends JFrame {
 
 	public void showWindow() throws NotFoundResourceFile, IOException, FontFormatException {
 		// important!, set default values for codes
-		cmbBaseCurrency.setSelectedIndex(0);
-		cmbTargetCurrency.setSelectedIndex(1);
+		if(cmbBaseCurrency.getItemCount() >= 2){
+			cmbBaseCurrency.setSelectedIndex(0);
+			cmbTargetCurrency.setSelectedIndex(1);
+		}
 		// load fonts
 		Font poppins = CoreHelpers.loadFont("Poppins.ttf", 18);
 		cmbBaseCurrency.setFont(poppins);

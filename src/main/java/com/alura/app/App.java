@@ -25,6 +25,9 @@ public class App  {
 			Dotenv dotenv = Dotenv.load();
 			var pathToJson = CoreHelpers.getAssetFile("currencies.json");
 			List<Currency> currencies = CoreHelpers.getListFromJson(pathToJson, Currency.class);
+			if(currencies.size() < 2){
+				throw new Exception("currencies.json file has to be at least two currencies");
+			}
 			String API_KEY = dotenv.get("API_KEY");
 			ConverterCurrencyFrame frame = new ConverterCurrencyFrame(currencies, new CurrencyServiceApi(API_KEY), transactionService);
 			frame.showWindow();
