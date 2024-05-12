@@ -10,7 +10,6 @@ import com.alura.app.utils.CoreHelpers;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
@@ -33,7 +32,7 @@ public class ConverterCurrencyFrame extends JFrame {
 	private boolean shouldBeAnimated = false;
 
 	private final CurrencyServiceApi currencyServiceApi;
-	private final HistoryTransactionService historyTransactionService;
+	private final HistoryPanel historyPanel;
 
 	public ConverterCurrencyFrame(
 		List<Currency> currencies,
@@ -45,7 +44,6 @@ public class ConverterCurrencyFrame extends JFrame {
 		setLayout(new FlowLayout());
 
 		this.currencyServiceApi = currencyServiceApi;
-		this.historyTransactionService = transactionService;
 		currencies.forEach(cmbBaseCurrency::addItem);
 		currencies.forEach(cmbTargetCurrency::addItem);
 		txtAmount.setPreferredSize(new Dimension(200, 20));
@@ -57,6 +55,7 @@ public class ConverterCurrencyFrame extends JFrame {
 		JPanel targetCurrencyPanel = new JPanel();
 		JPanel inputPanel = new JPanel();
 		JPanel outputPanel = new JPanel();
+		this.historyPanel = new HistoryPanel(transactionService);
 
 		baseCurrencyPanel.add(lblBaseCurrency);
 		baseCurrencyPanel.add(cmbBaseCurrency);
@@ -75,8 +74,9 @@ public class ConverterCurrencyFrame extends JFrame {
 		add(targetCurrencyPanel);
 		add(inputPanel);
 		add(outputPanel);
+		add(historyPanel);
 
-		setSize(600, 350);
+		setSize(990, 650);
 		setLocationRelativeTo(null); // position center screen
 	}
 
@@ -130,10 +130,15 @@ public class ConverterCurrencyFrame extends JFrame {
 				if (baseCurrency.isEmpty()) throw new Exception("You must select a base currency");
 				if (targetCurrency.isEmpty()) throw new Exception("You must select a target currency");
 				this.currencyServiceApi.convert(amount, baseCurrency.get().code(), targetCurrency.get().code())
+					.thenApply(result -> {
+						shouldBeAnimated = false;
+						btnConvert.setEnabled(true);
+						return result;
+					})
 					.thenAccept(conversionResult -> {
 						txtOutput.setText(conversionResult.toString());
 						try {
-							this.historyTransactionService.save(Transaction.create(
+							this.historyPanel.addTransaction(Transaction.create(
 								baseCurrency.get().code(),
 								targetCurrency.get().code(),
 								CoreHelpers.currencyFormat(amount),
@@ -147,20 +152,18 @@ public class ConverterCurrencyFrame extends JFrame {
 						txtOutput.setText("-.--");
 						JOptionPane.showMessageDialog(null, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 						return null;
-					})
-					.thenRun(() -> {
-						shouldBeAnimated = false;
-						btnConvert.setEnabled(true);
 					});
 			} catch (ParseException e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(), "Invalid amount", JOptionPane.ERROR_MESSAGE);
+				txtOutput.setText("0.00");
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			} finally {
 				txtOutput.setText("0.00");
+			} finally {
 				shouldBeAnimated = false;
 				btnConvert.setEnabled(true);
 			}
 		});
 	}
+
 }
