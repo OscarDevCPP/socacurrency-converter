@@ -20,7 +20,7 @@ en la formación de **Java Orientado a Objetos G6 - ONE**
 ### Ejución del proyecto
 ![Parte 1](docs/part-1.gif)
 ### Agregar mas monedas
-![Parte 2](docs/part-2.gif)
+![Parte 2](docs/part-3.gif)
 
 # ⚡️ Notas de ejecución
 
