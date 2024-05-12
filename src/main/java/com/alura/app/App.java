@@ -9,7 +9,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 import javax.swing.JOptionPane;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -34,7 +33,5 @@ public class App  {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		// Crear un modelo o Record para un Historial
-		// Documentar
 	}
 }
