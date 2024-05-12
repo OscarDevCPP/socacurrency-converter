@@ -21,3 +21,7 @@ target
 # Maven generated files
 mvnw
 mvnw.cmd
+.env
+
+# important for this project
+history.json
