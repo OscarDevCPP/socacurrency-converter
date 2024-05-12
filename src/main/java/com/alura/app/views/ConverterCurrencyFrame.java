@@ -2,12 +2,15 @@ package com.alura.app.views;
 
 import com.alura.app.exceptions.NotFoundResourceFile;
 import com.alura.app.models.Currency;
+import com.alura.app.models.Transaction;
 import com.alura.app.services.CurrencyServiceApi;
+import com.alura.app.services.HistoryTransactionService;
 import com.alura.app.utils.CoreHelpers;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
@@ -30,13 +33,19 @@ public class ConverterCurrencyFrame extends JFrame {
 	private boolean shouldBeAnimated = false;
 
 	private final CurrencyServiceApi currencyServiceApi;
+	private final HistoryTransactionService historyTransactionService;
 
-	public ConverterCurrencyFrame(List<Currency> currencies, CurrencyServiceApi currencyServiceApi) {
+	public ConverterCurrencyFrame(
+		List<Currency> currencies,
+		CurrencyServiceApi currencyServiceApi,
+		HistoryTransactionService transactionService
+	) {
 		super("Conversor de monedas - Alura Latam");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
 
 		this.currencyServiceApi = currencyServiceApi;
+		this.historyTransactionService = transactionService;
 		currencies.forEach(cmbBaseCurrency::addItem);
 		currencies.forEach(cmbTargetCurrency::addItem);
 		txtAmount.setPreferredSize(new Dimension(200, 20));
@@ -76,7 +85,7 @@ public class ConverterCurrencyFrame extends JFrame {
 		cmbBaseCurrency.setSelectedIndex(0);
 		cmbTargetCurrency.setSelectedIndex(1);
 		// load fonts
-		Font poppins = CoreHelpers.loadFont("Poppins.ttf",18);
+		Font poppins = CoreHelpers.loadFont("Poppins.ttf", 18);
 		cmbBaseCurrency.setFont(poppins);
 		cmbTargetCurrency.setFont(poppins);
 		txtAmount.setFont(poppins);
@@ -121,9 +130,21 @@ public class ConverterCurrencyFrame extends JFrame {
 				if (baseCurrency.isEmpty()) throw new Exception("You must select a base currency");
 				if (targetCurrency.isEmpty()) throw new Exception("You must select a target currency");
 				this.currencyServiceApi.convert(amount, baseCurrency.get().code(), targetCurrency.get().code())
-					.thenAccept(conversionResult -> txtOutput.setText(conversionResult.toString()))
+					.thenAccept(conversionResult -> {
+						txtOutput.setText(conversionResult.toString());
+						try {
+							this.historyTransactionService.save(Transaction.create(
+								baseCurrency.get().code(),
+								targetCurrency.get().code(),
+								CoreHelpers.currencyFormat(amount),
+								conversionResult.toString()
+							));
+						} catch (IOException e) {
+							JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+						}
+					})
 					.exceptionally(throwable -> {
-						txtOutput.setText("0.00");
+						txtOutput.setText("-.--");
 						JOptionPane.showMessageDialog(null, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 						return null;
 					})

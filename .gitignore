@@ -22,3 +22,6 @@ target
 mvnw
 mvnw.cmd
 .env
+
+# important for this project
+history.json
