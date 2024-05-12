@@ -18,18 +18,10 @@ import java.util.List;
  */
 public class App  {
 
-	public static File loadHistoryJsonFile() throws IOException {
-		File file = new File("history.json");
-		if(!file.exists()){
-			var ignored = file.createNewFile();
-		}
-		return file;
-	}
 
 	public static void main(String[] args) {
 		try {
-			File historyJsonFile = loadHistoryJsonFile();
-			HistoryTransactionService transactionService = new HistoryTransactionService(historyJsonFile);
+			HistoryTransactionService transactionService = new HistoryTransactionService(new File("history.json"));
 			Dotenv dotenv = Dotenv.load();
 			var pathToJson = CoreHelpers.getAssetFile("currencies.json");
 			List<Currency> currencies = CoreHelpers.getListFromJson(pathToJson, Currency.class);

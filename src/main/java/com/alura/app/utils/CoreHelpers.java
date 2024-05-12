@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -67,7 +68,8 @@ public class CoreHelpers {
 	}
 
 	public static <T> List<T> getListFromJson(String jsonFileDir, Class<T> classType) throws IOException {
-		return CoreHelpers.convertFromJson(jsonFileDir, CoreHelpers.getListType(classType));
+		Optional<List<T>> result = Optional.ofNullable(CoreHelpers.convertFromJson(jsonFileDir, CoreHelpers.getListType(classType)));
+		return result.orElseGet(ArrayList::new);
 	}
 
 	public static DecimalFormat getDecimalCurrencyFormat(){

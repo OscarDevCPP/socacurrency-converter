@@ -19,7 +19,7 @@ public class HistoryPanel extends JPanel {
 		this.tableModel = new DefaultTableModel(recoverData(), getColumnNames());
 		JTable table = new JTable(tableModel);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setPreferredSize(new Dimension(800,300));
+		scrollPane.setPreferredSize(new Dimension(800, 300));
 		JButton btnClear = new JButton("Borrar Historial");
 		btnClear.addActionListener(this::onClickClear);
 		this.add(scrollPane);
@@ -33,7 +33,6 @@ public class HistoryPanel extends JPanel {
 
 	private void onClickClear(ActionEvent actionEvent) {
 		try {
-			System.out.println("clear table");
 			this.tableModel.setRowCount(0);
 			this.historyTransactionService.clearAll();
 		} catch (IOException e) {

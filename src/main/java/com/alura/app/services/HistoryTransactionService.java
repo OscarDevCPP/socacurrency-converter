@@ -46,6 +46,9 @@ public class HistoryTransactionService {
 	private void createJsonFileIfNotExists() throws IOException {
 		if(!jsonFile.exists()){
 			var ignored = jsonFile.createNewFile();
+			try(FileWriter writer = new FileWriter(jsonFile)){
+				writer.write("[]");
+			}
 		}
 	}
 
