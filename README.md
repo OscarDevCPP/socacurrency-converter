@@ -17,10 +17,7 @@ en la formación de **Java Orientado a Objetos G6 - ONE**
 - 🛠️Lista personalizable de codigos de monedas.
 - 📦 Manejo de dependencias con maven.
 
-### Ejución del proyecto
-![Parte 1](docs/part-1.gif)
-### Agregar mas monedas
-![Parte 2](docs/part-3.gif)
+![Parte 2](docs/screen.gif)
 
 # ⚡️ Notas de ejecución
 
